@@ -42,7 +42,13 @@ jobs:
           sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
-
+          
+      - name: world
+        run: |
+          cd package
+          git clone https://github.com/kenzok8/openwrt-packages.git
+          git clone https://github.com/kenzok8/small.git
+          
           df -h
 
       - name: Update feeds
@@ -57,12 +63,89 @@ jobs:
           touch ./.config
           
           cat >> .config <<EOF
-          CONFIG_HAVE_DOT_CONFIG=y
-          CONFIG_TARGET_mvebu=y
-          CONFIG_TARGET_mvebu_cortexa9=y
-          CONFIG_TARGET_IMAGES_GZIP=y
-          CONFIG_KERNEL_BUILD_USER="WRT1900AC"
-          CONFIG_KERNEL_BUILD_DOMAIN="Azure"
+          CONFIG_HAS_SUBTARGETS=y
+          CONFIG_HAS_DEVICES=y
+          CONFIG_TARGET_BOARD="mvebu"
+          CONFIG_TARGET_SUBTARGET="cortexa9"
+          CONFIG_TARGET_PROFILE="DEVICE_linksys_wrt1900ac-v2"
+          CONFIG_TARGET_ARCH_PACKAGES="arm_cortex-a9_vfpv3-d16"
+          CONFIG_DEFAULT_TARGET_OPTIMIZATION="-Os -pipe"
+          CONFIG_CPU_TYPE="cortex-a9+vfpv3-d16"
+          CONFIG_LINUX_5_10=y
+          CONFIG_DEFAULT_automount=y
+          CONFIG_DEFAULT_autosamba=y
+          CONFIG_DEFAULT_base-files=y
+          CONFIG_DEFAULT_block-mount=y
+          CONFIG_DEFAULT_busybox=y
+          CONFIG_DEFAULT_coremark=y
+          CONFIG_DEFAULT_ddns-scripts_aliyun=y
+          CONFIG_DEFAULT_ddns-scripts_dnspod=y
+          CONFIG_DEFAULT_default-settings=y
+          CONFIG_DEFAULT_dnsmasq-full=y
+          CONFIG_DEFAULT_dropbear=y
+          CONFIG_DEFAULT_firewall=y
+          CONFIG_DEFAULT_fstools=y
+          CONFIG_DEFAULT_iptables=y
+          CONFIG_DEFAULT_iptables-mod-extra=y
+          CONFIG_DEFAULT_iptables-mod-tproxy=y
+          CONFIG_DEFAULT_iwinfo=y
+          CONFIG_DEFAULT_kmod-gpio-button-hotplug=y
+          CONFIG_DEFAULT_kmod-inet-diag=y
+          CONFIG_DEFAULT_kmod-ipt-raw=y
+          CONFIG_DEFAULT_kmod-mwlwifi=y
+          CONFIG_DEFAULT_kmod-nf-nathelper=y
+          CONFIG_DEFAULT_kmod-nf-nathelper-extra=y
+          CONFIG_DEFAULT_kmod-tun=y
+          CONFIG_DEFAULT_libc=y
+          CONFIG_DEFAULT_libgcc=y
+          CONFIG_DEFAULT_libustream-openssl=y
+          CONFIG_DEFAULT_logd=y
+          CONFIG_DEFAULT_luci=y
+          CONFIG_DEFAULT_luci-app-accesscontrol=y
+          CONFIG_DEFAULT_luci-app-advanced-reboot=y
+          CONFIG_DEFAULT_luci-app-arpbind=y
+          CONFIG_DEFAULT_luci-app-autoreboot=y
+          CONFIG_DEFAULT_luci-app-ddns=y
+          CONFIG_DEFAULT_luci-app-filetransfer=y
+          CONFIG_DEFAULT_luci-app-nlbwmon=y
+          CONFIG_DEFAULT_luci-app-ramfree=y
+          CONFIG_DEFAULT_luci-app-ssr-plus=y
+          CONFIG_DEFAULT_luci-app-passwall=y
+          CONFIG_DEFAULT_luci-app-turboacc=y
+          CONFIG_DEFAULT_luci-app-unblockmusic=y
+          CONFIG_DEFAULT_luci-app-upnp=y
+          CONFIG_DEFAULT_luci-app-vlmcsd=y
+          CONFIG_DEFAULT_luci-app-vsftpd=y
+          CONFIG_DEFAULT_luci-app-wol=y
+          CONFIG_DEFAULT_luci-newapi=y
+          CONFIG_DEFAULT_mtd=y
+          CONFIG_DEFAULT_mwlwifi-firmware-88w8864=y
+          CONFIG_DEFAULT_netifd=y
+          CONFIG_DEFAULT_opkg=y
+          CONFIG_DEFAULT_ppp=y
+          CONFIG_DEFAULT_ppp-mod-pppoe=y
+          CONFIG_DEFAULT_procd=y
+          CONFIG_DEFAULT_uboot-envtools=y
+          CONFIG_DEFAULT_uci=y
+          CONFIG_DEFAULT_uclient-fetch=y
+          CONFIG_DEFAULT_urandom-seed=y
+          CONFIG_DEFAULT_wpad-openssl=y
+          CONFIG_HAS_FPU=y
+          CONFIG_AUDIO_SUPPORT=y
+          CONFIG_GPIO_SUPPORT=y
+          CONFIG_PCI_SUPPORT=y
+          CONFIG_PCIE_SUPPORT=y
+          CONFIG_USB_SUPPORT=y
+          CONFIG_RTC_SUPPORT=y
+          CONFIG_USES_DEVICETREE=y
+          CONFIG_USES_INITRAMFS=y
+          CONFIG_USES_SQUASHFS=y
+          CONFIG_NAND_SUPPORT=y
+          CONFIG_USES_ROOTFS_PART=y
+          CONFIG_USES_BOOT_PART=y
+          CONFIG_arm=y
+          CONFIG_arm_v7=y
+          CONFIG_ARCH="arm"
           EOF
           
           sed -i 's/^[ \t]*//g' ./.config
