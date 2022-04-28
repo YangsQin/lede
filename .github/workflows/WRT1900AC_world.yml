@@ -68,6 +68,12 @@ jobs:
           touch ./.config
           
           cat >> .config <<EOF
+          CONFIG_TARGET_mvebu=y
+          CONFIG_TARGET_mvebu_cortexa9=y
+          CONFIG_TARGET_mvebu_cortexa9_DEVICE_linksys_wrt1900ac-v2=y
+          EOF
+          
+          cat >> .config <<EOF
           CONFIG_HAS_SUBTARGETS=y
           CONFIG_HAS_DEVICES=y
           CONFIG_TARGET_BOARD="mvebu"
