@@ -48,11 +48,10 @@ jobs:
           set network.$1.gateway='192.168.1.1'
           set network.$1.dns='127.0.0.1 223.5.5.5 8.8.8.8'
           
-      - name: world
+      - name: add feeds
         run: |
-          cd package
-          git clone https://github.com/kenzok8/openwrt-packages.git
-          git clone https://github.com/kenzok8/small.git
+          sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
+          sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
           
           df -h
 
@@ -122,6 +121,8 @@ jobs:
           CONFIG_DEFAULT_luci-app-ramfree=y
           CONFIG_DEFAULT_luci-app-ssr-plus=y
           CONFIG_DEFAULT_luci-app-passwall=y
+          CONFIG_DEFAULT_luci-app-openclash=y
+          CONFIG_DEFAULT_luci-app-pppoe-relay=y
           CONFIG_DEFAULT_luci-app-turboacc=y
           CONFIG_DEFAULT_luci-app-unblockmusic=y
           CONFIG_DEFAULT_luci-app-upnp=y
