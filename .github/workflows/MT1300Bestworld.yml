@@ -67,9 +67,9 @@ jobs:
           touch ./.config
           
           cat >> .config <<EOF
-          CONFIG_TARGET_mvebu=y
-          CONFIG_TARGET_mvebu_cortexa9=y
-          CONFIG_TARGET_mvebu_cortexa9_DEVICE_linksys_wrt1900ac-v2=y
+          CONFIG_TARGET_ramips=y
+          CONFIG_TARGET_ramips_mt7621=y
+          CONFIG_TARGET_ramips_mt7621_DEVICE_glinet_gl-mt1300=y
           EOF
           
           cat >> .config <<EOF
