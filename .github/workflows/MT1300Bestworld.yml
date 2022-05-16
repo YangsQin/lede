@@ -43,10 +43,7 @@ jobs:
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
           
-      - name: world
-        run: |
-          set network.$1.gateway='192.168.1.1'
-          set network.$1.dns='127.0.0.1 223.5.5.5 8.8.8.8'
+      - name： 
           
       - name: add feeds
         run: |
